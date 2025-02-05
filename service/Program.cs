@@ -1,9 +1,19 @@
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpClient<DriverStandingsDataService>((serviceProvider, client) =>
+{
+    var apiKey = builder.Configuration["rb-task-api-key"];
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("x-api-key", apiKey);
+    client.BaseAddress = new Uri("https://pitwall.redbullracing.com");
+});
 
 var app = builder.Build();
 
@@ -16,29 +26,29 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapGet("/driver-standings", ([FromServices] DriverStandingsDataService standingsService) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return standingsService.GetDataForYear(2023);
 })
-.WithName("GetWeatherForecast")
+.WithName("GetDriverStandings")
 .WithOpenApi();
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+
+
+public class DriverStandingsDataService
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    private readonly HttpClient _client;
+    public DriverStandingsDataService(HttpClient client)
+    {
+        _client = client;
+    }
+
+    public async Task<string> GetDataForYear(int year)
+    {
+        var result = await _client.GetAsync($"/api/standings/drivers/{year}");
+        var resultString = await result.Content.ReadAsStringAsync();
+        return resultString;
+    }
 }

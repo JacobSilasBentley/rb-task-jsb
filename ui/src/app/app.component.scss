@@ -1,0 +1,100 @@
+$rb-blue: #001a30;
+$rb-blue-lighter: #00315c;
+$rb-red: #ea1d2d;
+$rb-grey: #a8a9ac;
+$rb-yellow: #fcd700;
+
+h1 {
+  color: $rb-blue;
+}
+
+hr {
+  margin-bottom: 2rem;
+  border-color: $rb-yellow;
+}
+
+section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  max-width: 64rem;
+  margin: 2rem;
+  width: 100%;
+}
+
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.dropdown-container label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.dropdown-container select {
+  font-size: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid $rb-grey;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+}
+
+.dropdown-container p {
+  font-size: 0.8rem;
+  margin: 2px;
+  padding: 0;
+  color: $rb-grey;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  border-bottom: solid 2px $rb-grey;
+}
+
+th,
+td {
+  padding: 12px 15px;
+}
+
+td {
+  border-top: $rb-grey solid 1px;
+  color: #555;
+}
+
+td + .highlight {
+  font-weight: bold;
+}
+
+.centre {
+  text-align: center;
+}
+
+button {
+  background-color: $rb-blue;
+  color: white;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1rem;
+}
+
+button:hover {
+  background-color: $rb-blue-lighter;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}

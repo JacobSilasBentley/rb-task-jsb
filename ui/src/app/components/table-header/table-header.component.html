@@ -1,4 +1,18 @@
-<button (click)="clicked.emit()">
-  <span> <ng-content></ng-content> </span>
-  <app-chevron></app-chevron>
+<button (click)="clicked.emit()" *ngIf="value">
+  <span> {{ title }} </span>
+  <div id="chevron-outer-container" [style]="{ color: chevronColor }">
+    <div
+      id="chevron-inner-container"
+      [style]="
+        currentValue === value && currentOrder === 'Ascending'
+          ? ''
+          : 'transform: rotate(180deg);'
+      "
+    >
+      <app-chevron></app-chevron>
+    </div>
+  </div>
 </button>
+<div *ngIf="!value">
+  <span> {{ title }} </span>
+</div>

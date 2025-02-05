@@ -13,15 +13,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 
-// Sort By
-// Position
-// Driver Name
-// Team Name
-
-// Filter By:
-// Team Name
-// Driver Country
-
 const currentYear = new Date().getFullYear();
 const yearFirstF1Season = 1950;
 const defaultYear = currentYear - 1;
@@ -67,7 +58,6 @@ export class AppComponent {
     ) {
       return this.filteredData();
     }
-    debugger;
     let getter: (a: DriverStanding, b: DriverStanding) => any = (
       a: DriverStanding,
       b: DriverStanding
@@ -155,5 +145,10 @@ export class AppComponent {
         return { parameter, order: 'Ascending' };
       }
     });
+  }
+
+  clearFilters() {
+    this.teamFilter.set('');
+    this.countryFilter.set('');
   }
 }

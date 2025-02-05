@@ -22,7 +22,7 @@ public class DriverStandingsDataService
         var output = standings.Select((ds, index) => new DriverStandingDTO()
         {
             DriverUUID = ds.DriverUUID,
-            DriverName = $"{ds.FirstName}, {ds.LastName}",
+            DriverName = $"{ds.FirstName} {ds.LastName}",
             DriverCountryCode = ds.DriverCountryCode,
             SeasonTeamName = ds.SeasonTeamName,
             SeasonPoints = ds.SeasonPoints,

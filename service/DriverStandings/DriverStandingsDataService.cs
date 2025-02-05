@@ -12,6 +12,11 @@ public class DriverStandingsDataService
     public async Task<IReadOnlyCollection<DriverStandingDTO>> GetDataForYear(int year)
     {
         var result = await _client.GetAsync($"/api/standings/drivers/{year}");
+        if (result.IsSuccessStatusCode == false)
+        {
+            var errorString = await result.Content.ReadAsStringAsync();
+            throw new HttpRequestException($"Failed to retrieve the driver standings data for {year}. Failed with {result.StatusCode} : {errorString}");
+        }
         var resultString = await result.Content.ReadAsStringAsync();
         var standings = JsonSerializer.Deserialize<DriverStandingDataAccess[]>(resultString);
         var output = standings.Select((ds, index) => new DriverStandingDTO()

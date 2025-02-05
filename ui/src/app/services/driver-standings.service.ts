@@ -1,6 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { filter, map, Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export type DriverStanding = {
   driverUUID: string;
@@ -19,7 +20,7 @@ export class DriverStandingsService {
 
   getDriverStandingsForYear(year: number): Observable<DriverStanding[]> {
     return this.httpClient.get<DriverStanding[]>(
-      `https://localhost:7158/driver-standings?year=${year}`
+      `${environment.baseDriverStandingsApi}/driver-standings?year=${year}`
     );
   }
 }

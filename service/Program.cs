@@ -1,6 +1,8 @@
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 
+var corsPolicy = "allow-all-cors";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +17,15 @@ builder.Services.AddHttpClient<DriverStandingsDataService>((serviceProvider, cli
     var apiKey = configuration["rb-task-api-key"];
     client.BaseAddress = new Uri(baseAddress);
     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("x-api-key", apiKey);
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsPolicy,
+        policy =>
+        {
+            policy.AllowAnyOrigin();
+        });
 });
 
 var app = builder.Build();
@@ -34,5 +45,7 @@ app.MapGet("/driver-standings", (int year, [FromServices] DriverStandingsDataSer
 })
 .WithName("GetDriverStandings")
 .WithOpenApi();
+
+app.UseCors(corsPolicy);
 
 app.Run();

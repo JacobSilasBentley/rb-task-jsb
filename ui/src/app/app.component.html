@@ -185,6 +185,38 @@
 <!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<pre>{{ data | json }}</pre>
+<select (change)="updateSelectedYear($event)">
+  <option
+    [value]="year"
+    [selected]="selectedYear() == year"
+    *ngFor="let year of availableYears"
+  >
+    {{ year }}
+  </option>
+</select>
+
+<select (change)="updateTeamFilter($event)">
+  <option value="" [selected]="teamFilter() == ''">Any</option>
+  <option
+    *ngFor="let team of availableTeams()"
+    [selected]="teamFilter() == team"
+    [value]="team"
+  >
+    {{ team }}
+  </option>
+</select>
+
+<select (change)="updateCountryFilter($event)">
+  <option value="">Any</option>
+  <option
+    *ngFor="let country of availableCountries()"
+    [selected]="countryFilter() == country"
+    [value]="country"
+  >
+    {{ country }}
+  </option>
+</select>
+
+<pre>{{ filteredData() | json }}</pre>
 
 <router-outlet />

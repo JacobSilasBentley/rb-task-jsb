@@ -12,6 +12,7 @@ import {
 } from './services/driver-standings.service';
 import { CommonModule } from '@angular/common';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
+import { delay, finalize } from 'rxjs';
 
 const currentYear = new Date().getFullYear();
 const yearFirstF1Season = 1950;
@@ -32,6 +33,8 @@ type Ordering = {
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  loading = signal(false);
+  error = signal(false);
   data: WritableSignal<DriverStanding[] | undefined> = signal(undefined);
   teamFilter = signal<string>('');
   countryFilter = signal<string>('');
@@ -100,16 +103,24 @@ export class AppComponent {
   }
 
   updateDriverStandingsData() {
+    this.error.set(false);
+    this.loading.set(true);
     this.countryFilter.set('');
     this.teamFilter.set('');
     this.driverStandingsService
       .getDriverStandingsForYear(this.selectedYear())
+      .pipe(
+        finalize(() => {
+          this.loading.set(false);
+        })
+      )
       .subscribe({
         next: (data) => {
           this.data.set(data);
         },
         error: (err) => {
           console.log(err);
+          this.error.set(true);
         },
       });
   }

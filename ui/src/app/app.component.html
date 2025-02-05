@@ -64,11 +64,20 @@
       </p>
     </div>
 
-    <div *ngIf="!data()?.length">
+    <div *ngIf="loading()">loading...</div>
+
+    <div *ngIf="!error() && !loading() && !data()?.length">
       <p>No data is available for this season.</p>
     </div>
 
-    <div *ngIf="data()?.length && !filteredAndOrderedData().length">
+    <div
+      *ngIf="
+        !error() &&
+        !loading() &&
+        data()?.length &&
+        !filteredAndOrderedData().length
+      "
+    >
       <p>There are no records that corrspond to the given filters.</p>
     </div>
 
@@ -78,6 +87,11 @@
     >
       Clear Filters
     </button>
+
+    <div class="error" *ngIf="error()">
+      <p>An Error Has Occured.</p>
+      <button class="error" (click)="updateDriverStandingsData()">Retry</button>
+    </div>
 
     <table *ngIf="filteredAndOrderedData().length">
       <thead>

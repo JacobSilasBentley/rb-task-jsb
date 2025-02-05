@@ -1,6 +1,7 @@
 $rb-blue: #001a30;
 $rb-blue-lighter: #00315c;
 $rb-red: #ea1d2d;
+$rb-red-lighter: #f55966;
 $rb-grey: #a8a9ac;
 $rb-yellow: #fcd700;
 
@@ -74,7 +75,7 @@ td {
   color: #555;
 }
 
-td + .highlight {
+td.highlight {
   font-weight: bold;
 }
 
@@ -83,6 +84,7 @@ td + .highlight {
 }
 
 button {
+  border: none;
   background-color: $rb-blue;
   color: white;
   padding: 12px 24px;
@@ -92,6 +94,14 @@ button {
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   margin-bottom: 1rem;
+}
+
+button.error {
+  background-color: $rb-red;
+}
+
+button.error:hover {
+  background-color: $rb-red-lighter;
 }
 
 button:hover {

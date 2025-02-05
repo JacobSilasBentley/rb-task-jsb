@@ -217,6 +217,62 @@
   </option>
 </select>
 
-<pre>{{ filteredData() | json }}</pre>
+<pre>
+  {{ ordering() | json }}
+</pre>
+
+<div *ngIf="!data()?.length">No data is available for this season.</div>
+
+<table *ngIf="filteredAndOrderedData().length">
+  <thead>
+    <tr>
+      <th>
+        <app-table-header
+          value="position"
+          [currentValue]="ordering().parameter"
+          [currentOrder]="ordering().order"
+          (clicked)="updateOrdering('position')"
+        >
+          Position
+        </app-table-header>
+      </th>
+      <th>
+        <app-table-header
+          value="driverName"
+          [currentValue]="ordering().parameter"
+          [currentOrder]="ordering().order"
+          (clicked)="updateOrdering('driverName')"
+        >
+          Driver Name
+        </app-table-header>
+      </th>
+      <th>
+        <app-table-header>Driver Country</app-table-header>
+      </th>
+      <th>
+        <app-table-header
+          value="teamName"
+          [currentValue]="ordering().parameter"
+          [currentOrder]="ordering().order"
+          (clicked)="updateOrdering('teamName')"
+        >
+          Team Name
+        </app-table-header>
+      </th>
+      <th>
+        <app-table-header>Points Total</app-table-header>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of filteredAndOrderedData()">
+      <td>{{ row.position }}</td>
+      <td>{{ row.driverName }}</td>
+      <td>{{ row.driverCountryCode }}</td>
+      <td>{{ row.seasonTeamName }}</td>
+      <td>{{ row.seasonPoints }}</td>
+    </tr>
+  </tbody>
+</table>
 
 <router-outlet />
